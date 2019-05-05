@@ -1,46 +1,50 @@
 package com.framgia.retrofit2kotlin
 
+import retrofit2.Callback
+
 import android.content.pm.PackageManager
 import com.framgia.retrofit2kotlin.adapter.EmployeeAdapter
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.framgia.retrofit2kotlin.data.API
-import com.framgia.retrofit2kotlin.data.Post
+import com.framgia.retrofit2kotlin.model.Employee
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
-import javax.security.auth.callback.Callback
+import java.util.logging.Logger
 
 
 /**Recyclerview:https://www.androidhive.info/android-databinding-in-recyclerview-profile-screen*/
 
 class MainActivity : AppCompatActivity() {
 
-     lateinit var adapter: EmployeeAdapter
+    lateinit var adapter: EmployeeAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         adapter = EmployeeAdapter(applicationContext)
         recycler_view.layoutManager = LinearLayoutManager(this)
-        recycler_view.adapter = adapter
-        var api = API.apiService.getAllEmployee().enqueue(object: Callback,
-            retrofit2.Callback<List<ResponseBody>> {
-            override fun onFailure(call: Call<List<ResponseBody>>, t: Throwable) {
+        var emp = arrayListOf(Employee("tai"), Employee("tai"), Employee("tai"))
+        var api = API.apiService.getAllEmployee().enqueue(object : Callback<List<Employee>> {
+            override fun onFailure(call: Call<List<Employee>>, t: Throwable) {
+
 
             }
 
-            override fun onResponse(call: Call<List<ResponseBody>>, response: Response<List<ResponseBody>>) {
-                if (response.isSuccessful == true) {
-                    
+            override fun onResponse(call: Call<List<Employee>>, response: Response<List<Employee>>) {
+                if (response.isSuccessful) {
+                    adapter.setNotes(response.body())
+                    Logger.getLogger(MainActivity::class.java.name).warning("size of Employee")
+
                 }
-            }
 
+            }
 
         })
-
-
+        recycler_view.setHasFixedSize(true)
+       // adapter.setNotes(emp)
+        recycler_view.adapter = adapter
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

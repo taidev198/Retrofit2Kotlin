@@ -7,9 +7,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.framgia.retrofit2kotlin.R
 import com.framgia.retrofit2kotlin.databinding.EmployeeItemBinding
 import com.framgia.retrofit2kotlin.model.Employee
+import java.util.logging.Logger
 
 /**
  * Created by superme198 on 03,May,2019
@@ -37,11 +39,14 @@ class EmployeeAdapter(var context: Context) : RecyclerView.Adapter<EmployeeAdapt
     }
 
     override fun onBindViewHolder(viewHolder: NoteViewHolder, pos: Int) {
-        viewHolder.bindData(notes!![pos])
+        viewHolder.binding.item = notes!![pos]
+       // viewHolder.bindData(notes!![pos])
     }
 
     internal fun setNotes(listNotes: List<Employee>?) {
         notes = listNotes
+        Toast.makeText(context, "Hello World", Toast.LENGTH_LONG).show()
+//        Logger.getLogger(EmployeeAdapter::class.java.name).warning("set Employee")
     }
 
     class NoteViewHolder(

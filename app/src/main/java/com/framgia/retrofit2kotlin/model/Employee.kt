@@ -7,9 +7,8 @@ import com.google.gson.annotations.SerializedName
  * in NotesMVVM.
  *
  */
-class Employee {
+class Employee(var name: String) {
 
-    var name: String = ""
     @SerializedName("id")
     @Expose
      var id: String = ""
