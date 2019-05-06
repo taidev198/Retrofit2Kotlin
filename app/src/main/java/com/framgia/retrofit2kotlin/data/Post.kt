@@ -11,20 +11,17 @@ import com.google.gson.annotations.SerializedName
  */
 class Post {
 
+    @SerializedName("title")
+    @Expose
+     var title: String? = null
+    @SerializedName("body")
+    @Expose
+     var body: String? = null
+    @SerializedName("userId")
+    @Expose
+     var userId: Int? = null
     @SerializedName("id")
     @Expose
-    private var id: String = ""
-    @SerializedName("employee_name")
-    @Expose
-    private var employeeName: String = ""
-    @SerializedName("employee_salary")
-    @Expose
-    private var employeeSalary: String = ""
-    @SerializedName("employee_age")
-    @Expose
-    private var employeeAge: String = ""
-    @SerializedName("profile_image")
-    @Expose
-    private var profileImage: String = ""
+     var id: Int? = null
 
 }

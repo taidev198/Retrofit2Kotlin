@@ -20,7 +20,7 @@ import java.util.logging.Logger
  */
 class EmployeeAdapter(var context: Context) : RecyclerView.Adapter<EmployeeAdapter.NoteViewHolder>() {
 
-    var notes: List<Employee>? = null
+    var notes: List<Employee> = ArrayList()
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): NoteViewHolder {
         val binding: EmployeeItemBinding = DataBindingUtil.inflate(
@@ -30,23 +30,17 @@ class EmployeeAdapter(var context: Context) : RecyclerView.Adapter<EmployeeAdapt
 
     override fun getItemCount(): Int {
 
-        return if (notes == null) {
-            0
-        } else {
-            notes!!.size
-        }
+        return if(notes.isNullOrEmpty()) 0 else notes.size
 
     }
 
     override fun onBindViewHolder(viewHolder: NoteViewHolder, pos: Int) {
-        viewHolder.binding.item = notes!![pos]
-       // viewHolder.bindData(notes!![pos])
+        viewHolder.binding.item = notes[pos]
+        viewHolder.binding.executePendingBindings()
     }
 
-    internal fun setNotes(listNotes: List<Employee>?) {
+    internal fun setNotes(listNotes: List<Employee>) {
         notes = listNotes
-        Toast.makeText(context, "Hello World", Toast.LENGTH_LONG).show()
-//        Logger.getLogger(EmployeeAdapter::class.java.name).warning("set Employee")
     }
 
     class NoteViewHolder(

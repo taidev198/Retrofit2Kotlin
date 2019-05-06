@@ -24,8 +24,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         adapter = EmployeeAdapter(applicationContext)
-        recycler_view.layoutManager = LinearLayoutManager(this)
-        var emp = arrayListOf(Employee("tai"), Employee("tai"), Employee("tai"))
+
         var api = API.apiService.getAllEmployee().enqueue(object : Callback<List<Employee>> {
             override fun onFailure(call: Call<List<Employee>>, t: Throwable) {
 
@@ -34,17 +33,16 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<List<Employee>>, response: Response<List<Employee>>) {
                 if (response.isSuccessful) {
-                    adapter.setNotes(response.body())
-                    Logger.getLogger(MainActivity::class.java.name).warning("size of Employee")
-
+                    recycler_view.layoutManager = LinearLayoutManager(applicationContext)
+                    response.body()?.let {
+                        adapter.setNotes(it)
+                        recycler_view.setHasFixedSize(true)
+                        recycler_view.adapter = adapter
+                    }
                 }
-
             }
-
         })
-        recycler_view.setHasFixedSize(true)
-       // adapter.setNotes(emp)
-        recycler_view.adapter = adapter
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
